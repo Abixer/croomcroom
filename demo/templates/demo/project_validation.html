@@ -1,0 +1,92 @@
+{% extends "demo/projectdefault.html" %}
+{% load staticfiles %}
+
+{% block body_header %}
+<h3 class="panel-title">Validation</h3>
+{% endblock body_header %}
+{% block body %}	
+<div class="col-md-12">
+	<h2>
+		Validations :
+	</h2>
+		<form role="form" "action="/" method="post">
+		{% csrf_token %}
+		
+		{{summary_form.as_p}}
+		
+		<div class="text-center">
+         <input type="submit" class="btn btn-primary" href="{% url "project" project_name %}" value="Save" />
+         <a class="btn btn-danger" href="{% url "project" project_name %}">Cancel</i></a>
+		</div>
+		</form>
+		
+	
+</div>
+
+<div class="col-md-6">
+   <form role="form" "action="/" method="post">
+	 {% csrf_token %}
+      <h3>Web Questionaire:</h3>
+      <div class="form-group">
+         {{ questionnaire_form.as_p }}
+      </div>
+	  
+	  {% if validations %}
+		<h4>Previous validations</h4>
+		<ul>
+		{% for validation in validations %}
+			<li>
+				<a href="{{validation.questionaireURL}}">{{validation.questionaireURL}}</a>
+				<p>{{validation.questionaireSummary}}<p>
+			</li>
+		{% endfor %}
+		</ul>
+	  {% else %}
+	  <p>Need help? Try <a href="http://www.google.com/google-d-s/createforms.html">google forms!</a></p>
+	  {% endif %}
+      <!--h3>Share with:</h3>
+      <div class="checkbox">
+         <label>
+         <input type="checkbox"> UOttawa ecosystem
+         </label>
+      </div-->
+      <div class="text-center">
+         <input type="submit" class="btn btn-primary" href="{% url "project" project_name %}" value="Save" />
+         <a class="btn btn-danger" href="{% url "project" project_name %}">Cancel</i></a>
+      </div>
+   </form>
+</div>
+<div class="col-md-6">
+   <form role="form" "action="/" method="post"  enctype="multipart/form-data"> 
+	 {% csrf_token %}
+      <h3>Manual validation:</h3>
+      <div class="form-group">
+         {{ file_questionnaire_form.as_p }}
+      </div>
+	  
+	  {% if file_validations %}
+		<h4>Previous validations</h4>
+		<ul>
+		{% for validation in file_validations %}
+			<li>
+				<a href="{{ validation.file_id.fileURL}}"> {{validation.file_id.uploaded.name}}</a>
+				<p>{{validation.questionaireSummary}}<p>
+			</li>
+		{% endfor %}
+		</ul>
+	  {% else %}
+	  {% endif %}
+      <!--h3>Share with:</h3>
+      <div class="checkbox">
+         <label>
+         <input type="checkbox"> UOttawa ecosystem
+         </label-->
+      </div>
+      <div class="text-center">
+         <input type="submit" class="btn btn-primary" href="{% url "project" project_name %}" value="Save" />
+         <a class="btn btn-danger" href="{% url "project" project_name %}">Cancel</i></a>
+      </div>
+   </form>
+</div>
+
+{% endblock body %}

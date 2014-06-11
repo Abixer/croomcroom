@@ -1,0 +1,36 @@
+{% extends "demo/projectdefault.html" %}
+
+{% block body_header %}
+<h3 class="panel-title">Feeds</h3>
+{% endblock body_header %}
+{% block body %}
+<div class="row">
+   <div>
+      <div class="feed">
+         <div class="col-md-12">
+			{% if ProjectPosts %}
+			{% for projectPost in ProjectPosts %}
+			<div class="row">
+				<div class="col-md-12">
+					<div>{{projectPost.content|safe}}</div>
+				</div>
+			</div>
+			<hr>
+			{% endfor %}
+			{% else %}
+			<div class="row">
+				<div class="col-md-12">
+				<div>There's no content yet, get to work on your business!</div>
+				</div>
+			</div>
+			{% endif %}
+			
+			
+
+	
+			</ul>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock body %}

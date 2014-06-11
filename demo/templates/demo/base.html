@@ -1,0 +1,49 @@
+{% load staticfiles %}
+{% load activetag %}
+{% load url from future %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		
+		<title>{% block title %}Croomer{% endblock title %}</title>
+		
+		<link rel="shortcut icon" href="{% static "ico/favicon.png" %}">
+		<!-- Bootstrap -->
+		<link href="{% static "demo/css/bootstrap.min.css" %}" rel="stylesheet">
+		<!-- Font Awsome -->
+		<link href="{% static "demo/css/font-awesome.min.css" %}" rel="stylesheet">
+		<!-- Social Buttons -->
+		<link href="{% static "demo/css/bootstrap-social.css" %}" rel="stylesheet">
+		
+		<style>
+			body {
+			padding-top: 60px;
+			padding-bottom: 20px;
+			background-color: #eee;
+			}
+		</style>
+		
+		{% block head %}
+		{% endblock head %}
+	</head>
+	<body>
+		{% block navbar %}
+		{% endblock navbar %}
+		
+		{% block body %}
+		{% endblock body %}
+		
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="{% static "demo/js/jquery-1.10.2.js" %}"></script>
+		<script src="{% static "demo/js/bootstrap.min.js" %}"></script>
+		
+		{% block jsincludes %}
+		{% endblock jsincludes %}
+	</body>
+</html>

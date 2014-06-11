@@ -1,0 +1,52 @@
+{% extends "demo/projectdefault.html" %}
+{% load staticfiles %}
+
+{% block body_header %}
+   <h3 class="panel-title">Team Profiles</h3>
+{% endblock body_header %}
+
+
+{% block body %}
+	<div class="feed">				
+		<div class="row">
+			
+			{% for teammate in teammates %}
+			<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+			
+				<div class="panel panel-default outer">
+					<div class="panel-heading">
+						{{teammate.0.first_name}} {{teammate.0.last_name}}
+					</div>
+					<div class="panel-body">
+						<h6>Email: {{ teammate.0.email }}</h6>
+						<h6>City: {{ teammate.1.city }}</h6>
+						<h6>Province: {{ teammate.1.province }}</h6>
+						<h6>Country: {{ teammate.1.country }}</h6>
+						<h6>School: {{ teammate.1.school }}</h6>
+						<h6>Faculty: {{ teammate.1.faculty }}</h6>
+						<h6>Skills: {{ teammate.1.skills }}</h6>
+						<h6>Interests: {{ teammate.1.interests }}</h6>
+					</div>
+					
+				</div>
+			
+			</div>							
+			{% endfor %}
+
+
+
+			<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Recruit
+					</div>
+					<div class="panel-body">
+						<a href="{% url "recruit_team" project_name %}">
+							<img class="img-responsive center-block" src="{% static "demo/images/unknown.jpg" %}" alt="My image"/>
+						</a>
+					</div>
+				</div>
+			</div>			
+		</div>		
+	</div>
+{% endblock body %}

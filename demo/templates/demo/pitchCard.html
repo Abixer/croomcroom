@@ -1,0 +1,307 @@
+{% extends "demo/projectdefault.html" %}
+{% load staticfiles %}
+
+{% block body_header %}
+<h3 class="panel-title">Pitch Card</h3>
+{% endblock body_header %}
+
+{% block head %}
+<style>
+   body {
+   padding-top: 60px;
+   padding-bottom: 40px;
+   background-color: #eee;
+   }
+   .boxStyle {
+   background-color:#FAFAFA; 
+   border:2px  dotted #666; 
+   overflow: hidden; 
+   padding-top:0px;
+   padding-bottom:50px;
+   }
+   .border1 {
+   border-right: none;
+   }
+   .border2 {
+   border-right: none;
+   border-left: none;
+   border-top: none;
+   }
+   .border3 {
+   border-right: none;
+   border-left: none;
+   border-top: none;
+   border-bottom: none;
+   }
+   .border4 {
+   border-right: none;
+   border-top: none;
+   }
+   .border5 {
+   border-top: none;
+   }
+   /* vertical alignment styles */
+   .col-top {
+   vertical-align:top;
+   }
+   .col-middle {
+   vertical-align:middle;
+   }
+   .col-bottom {
+   vertical-align:bottom;
+   }
+   /* columns of same height styles */
+   .container-xs-height {
+   display:table;
+   padding-left:0px;
+   padding-right:0px;
+   }
+   .row-xs-height {
+   display:table-row;
+   }
+   .col-xs-height {
+   display:table-cell;
+   float:none;
+   }
+   @media (min-width: 768px) {
+   .container-sm-height {
+   display:table;
+   padding-left:10px;
+   padding-right:10px;
+   }
+   .row-sm-height {
+   display:table-row;
+   }
+   .col-sm-height {
+   display:table-cell;
+   float:none;
+   }
+   }
+   @media (min-width: 992px) {
+   .container-md-height {
+   display:table;
+   padding-left:0px;
+   padding-right:0px;
+   }
+   .row-md-height {
+   display:table-row;
+   }
+   .col-md-height {
+   display:table-cell;
+   float:none;
+   }
+   }
+   @media (min-width: 1200px) {
+   .container-lg-height {
+   display:table;
+   padding-left:0px;
+   padding-right:0px;
+   }
+   .row-lg-height {
+   display:table-row;
+   }
+   .col-lg-height {
+   display:table-cell;
+   float:none;
+   }
+   }
+   .tableTitle {
+   padding-top:10px;
+   padding-bottom:5px;
+   font-family:sans-serif;
+   font-size:11px;
+   letter-spacing:1px;
+   color:#000000;
+   }
+</style>
+{% endblock head %}
+
+{% block body %}
+<div class="row">
+   <div class="col-md-12">
+      <h1>
+         {{ project.title }}
+      </h1>
+   </div>
+   <div class="col-md-12">
+      <h4>
+         {{ project_pitch.industry }}
+      </h4>
+   </div>
+   <div class="col-md-12">
+      <h4>
+         <a href="{{ project_pitch.video }}">{{ project_pitch.video }}</a>
+      </h4>
+   </div>
+</div>
+<div class="row">
+   <div class="col-md-12">
+      <h2>Problem</h2>
+      <p>
+         {{ project_pitch.description }}
+      </p>
+   </div>
+</div>
+<div class="row">
+   <div class="col-md-12">
+      <h2>Solution</h2>
+      <p>
+        {{ project_pitch.solution }}
+      </p>
+   </div>
+</div>
+<!--
+<div class="row">
+   <div class="col-md-12">
+      <h2>Video</h2>
+      <iframe width="360" height="188" src="http://www.youtube.com/embed/FvcCnr083_s?rel=1&amp;version=3&amp;autohide=0&amp;theme=dark" frameborder="0"></iframe>
+   </div>
+</div> -->
+
+<div class="row">
+   <div class="col-md-12">
+      <hr>
+      <h1>Business Model Canvas</h1>
+   </div>
+</div>
+
+<!-- business model canvas published START -->
+<div class="fluid-container container-sm-height">
+            <div class="row">
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 boxStyle border1 col-sm-height col-top">
+                  <div class="tableTitle">KEY PARTNERS</div>
+                  <div class="list-group">
+                  {% for key_partner in key_partners %}
+                  <li class="list-group-item list-group-item-{{key_partner.color}}">{{key_partner.title}}</li>
+                  {% endfor %}
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 boxStyle border1 col-sm-height col-top">
+                  <div class="row">
+                     <div class="col-xs-12 boxStyle border2">
+                        <div class="tableTitle">KEY ACTIVITIES</div>
+                        <div class="list-group">
+                        {% for key_activitie in key_activities %}
+                        <li class="list-group-item list-group-item-{{key_activitie.color}}">{{key_activitie.title}}</li>
+                        {% endfor %}
+                        </div>
+                     </div>
+                     <div class="col-xs-12 boxStyle border3">
+                        <div class="tableTitle">KEY RESSOURCES</div>
+                        <div class="list-group">
+                        {% for key_resource in key_resources %}
+						<li class="list-group-item list-group-item-{{key_resource.color}}">{{key_resource.title}}</li>
+                        {% endfor %}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 boxStyle border1 col-sm-height">
+                  <div class="tableTitle">VALUE PROPOSITION</div>
+                  <div class="list-group">
+                  {% for value_proposition in value_propositions %}
+                  <li class="list-group-item list-group-item-{{value_proposition.color}}">{{value_proposition.title}}</li>
+                  {% endfor %}
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 boxStyle border1 col-sm-height col-top">
+                  <div class="row">
+                     <div class="col-xs-12 boxStyle border2">
+                        <div class="tableTitle">CUSTOMER RELATIONSHIPS</div>
+                        <div class="list-group">
+                        {% for customer_relationship in customer_relationships %}
+                        <li class="list-group-item list-group-item-{{customer_relationship.color}}">{{customer_relationship.title}}</li>
+                        {% endfor %}
+                        </div>
+                     </div>
+                     <div class="col-xs-12 boxStyle border3">
+                        <div class="tableTitle">CHANNELS</div>
+                        <div class="list-group">
+                        {% for channel in channels %}
+                        <li class="list-group-item list-group-item-{{channel.color}}">{{channel.title}}</li>
+                        {% endfor %}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 boxStyle col-sm-height">
+                  <div class="tableTitle">CUSTOMER SEGMENTS</div>
+                  <div class="list-group">
+                  {% for customer_segment in customer_segments %}
+                  <li class="list-group-item list-group-item-{{customer_segment.color}}">{{customer_segment.title}}</li>
+                  {% endfor %}
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-xs-12 col-sm-6 boxStyle border4">
+                  <div class="tableTitle">COST STRUCTURE</div>
+                  <div class="list-group">
+                  {% for cost_structur in cost_structure %}
+                  <li class="list-group-item list-group-item-{{cost_structur.color}}">{{cost_structur.title}}</li>
+                  {% endfor %}
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-6 boxStyle border5 ">
+                  <div class="tableTitle">REVENUE STREAMS</div>
+                  <div class="list-group">
+                  {% for revenue_stream in revenue_streams %}
+                  <li class="list-group-item list-group-item-{{revenue_stream.color}}">{{revenue_stream.title}}</li>
+                  {% endfor %}
+                  </div>
+               </div>
+            </div>
+         </div>
+<!-- business model canvas published END -->
+ 
+ <div class="row">
+	<div class="col-md-12">
+	  <hr>
+      <h1>Validation summary</h1>
+	  <p>
+		{{project.validation}}
+	  </p>
+   </div>
+</div>
+ 
+<div class="row">
+	<div class="col-md-12">
+	  <hr>
+      <h1>Team</h1>
+   </div>
+</div>
+<div class="feed">	
+
+</div>
+<div class="feed">				
+	<div class="row">
+		{% for teammate in teammates %}
+		<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
+		
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					{{teammate.0.first_name}} {{teammate.0.last_name}}
+				</div>
+				<div class="panel-body">
+					<h6>Email: {{ teammate.0.email }}</h6>
+					<h6>City: {{ teammate.1.city }}</h6>
+					<h6>Province: {{ teammate.1.province }}</h6>
+					<h6>Country: {{ teammate.1.country }}</h6>
+					<h6>School: {{ teammate.1.school }}</h6>
+					<h6>Faculty: {{ teammate.1.faculty }}</h6>
+					<h6>Skills: {{ teammate.1.skills }}</h6>
+				</div>
+				
+			</div>
+		
+		</div>							
+		{% endfor %}	
+	</div>		
+</div>
+
+<!--
+<div class="text-center">
+   <button class="btn btn-success">Download as PDF</button>
+</div> -->
+
+{% endblock body %}

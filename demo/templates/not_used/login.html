@@ -1,0 +1,103 @@
+{% extends "demo/default.html" %}
+
+{% block head %}
+<style>
+
+.main{
+	padding: 38px;
+}
+.social-box{
+	padding-bottom: 15px;
+}
+
+.login-footer{
+	background:#f0f0f0;
+	margin: 0 auto;
+	border-top: 1px solid #dadada;
+	padding:20px;
+}
+.login-footer .left-section a{
+	font-weight:bold;
+	color:#8a8a8a;
+	line-height:19px;
+}
+.mg-btm{
+	margin-bottom:20px;
+}
+.mg-sbtm{
+	margin-bottom:8px;
+}
+
+body {
+	padding-top: 40px;
+	padding-bottom: 40px;
+	background-color: #eee; 
+}
+.centered-form{
+	margin-top: 60px;
+}
+
+</style>
+{% endblock head %}
+
+{% block body %}
+    
+<div class="container">
+	<div class="row centered-form">
+		<div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
+			
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2>Login to Croomer</h2>
+				</div>
+				
+				<div class="panel-body">
+				
+				
+					<form name="LoginForm" action="/demo/login" method="post"> {% csrf_token %}
+{% if next %}
+<input type="hidden" name="next" value="{{ next }}" />
+{% endif %}
+						<div class="social-box text-center">
+							<div class="mg-sbtm">
+								<button class="btn btn-facebook" style="width:200px;"><i class="fa fa-facebook"></i> | Login with Facebook</button>
+							</div>
+							<div class="mg-sbtm">
+								<button class="btn btn-twitter" style="width:200px;"><i class="fa fa-twitter"></i> | Login with twitter</button>
+							</div>
+						</div
+			    		
+							<div class="main">	
+								<div class="form-group">
+									<input type="text" name="username" class="form-control" placeholder="Email Address">
+								</div>
+								<div class="form-group">
+									<input type="password" name="password" class="form-control" placeholder="Password">
+								</div>
+								Are you a investor? <a href=""> Get started here</a>								
+							</div>
+							
+							<div class="login-footer">
+								<div class="row">
+									<div class="col-xs-8">
+										<div class="left-section">
+											<a href="">Forgot your password?</a>
+											<br>
+											<a href="{% url "register" %}">Sign up now</a>
+										</div>
+									</div>
+									<div class="col-xs-4 pull-right">
+										<button class="btn btn-large btn-success pull-right" type="submit" value="submit">Login <i class="fa fa-arrow-right"></i></button>						
+									</div>
+								</div>
+							</div>
+							
+						</form>
+					</div>
+				</div>
+			</div>
+		</div> <!-- /container -->
+
+
+		{% endblock body %}
+

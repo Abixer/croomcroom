@@ -1,0 +1,48 @@
+{% extends "demo/projectdefault.html" %}
+{% load staticfiles %}
+
+{% block header %}
+<ol class="breadcrumb">
+   <li><a href="{% url "dashboard" %}">Home</a></li>
+   <li><a href="{% url "startups" %}">Startups</a></li>
+   <li><a href="{% url "project" project_name %}">Croomer</a></li>
+   <li><a href="{% url "ecosystem" project_name %}">Ecosystem</a></li>
+   <li class="active">Investors</li>
+</ol>
+{% endblock header %}
+
+{% block body_header %}
+<h3 class="panel-title">Investors</h3>
+<small>Requirements to get in touch with mentors: A completed <a href="{% url "pitchCard" project_name %}">pitch card</a></small>
+{% endblock body_header %}
+
+{% block body %}
+<div class="feed">
+   <div class="row">
+      <div class="col-md-3 col-md-offset-1">
+         <div class="panel panel-default">
+            <div class="panel-heading">
+               <p>Pitch to X</p>
+            </div>
+            <div class="panel-body">
+               <img class="img-responsive" src="{% static "demo/images/unknown.jpg" %}" alt="My image"/>
+               <hr>
+               <button class="btn btn-info">Pitch</button>
+            </div>
+         </div>
+      </div>
+      <div class="col-md-3">
+         <div class="panel panel-default">
+            <div class="panel-heading">
+               <p>Pitch to X</p>
+            </div>
+            <div class="panel-body">
+               <img class="img-responsive" src="{% static "demo/images/unknown.jpg" %}" alt="My image"/>
+               <hr>
+               <button class="btn btn-info">Pitch</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock body %}

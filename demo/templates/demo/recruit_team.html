@@ -1,0 +1,137 @@
+{% extends "demo/projectdefault.html" %}
+{% load staticfiles %}
+{% block head %}
+<style>
+   body {
+   padding-top: 60px;
+   padding-bottom: 40px;
+   background-color: #eee;
+   }
+.custom-search-form{
+    margin-top:-15px;
+}
+</style>
+{% endblock head %}
+{% block header %}
+<ol class="breadcrumb">
+   <li><a href="{% url "dashboard" %}">Home</a></li>
+   <li><a href="{% url "startups" %}">Startups</a></li>
+   <li class="active">Croomer</li>
+</ol>
+{% endblock header %}
+{% block body_header %}
+<h3 class="panel-title">Potential partners</h3>
+{% endblock body_header %}
+{% block body %}
+<div class="feed">
+
+	<div class="row">
+		<div class="col-md-4 col-md-offset-8">
+			<p>
+			 <div class="input-group custom-search-form">
+              <input type="text" name="fname" class="form-control filter_box" placeholder="Search">
+              <span class="input-group-btn">
+              <button class="btn btn-default" type="button">
+              <span class="glyphicon glyphicon-search"></span>
+             </button>
+             </span>
+             </div>
+			</p>
+		</div>
+	</div>
+
+   <div class="row">
+   
+		<div class="candidates">
+		{% for potential in potentials %}
+			<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 searchElem">
+			
+				<div class="panel panel-default searchElem2">
+					<div class="panel-heading">
+						{{potential.0.first_name}} {{potential.0.last_name}}
+					</div>
+					<div class="panel-body">
+						<h6>Email: {{ potential.0.email }}</h6>
+						<h6>City: {{ potential.1.city }}</h6>
+						<h6>Province: {{ potential.1.province }}</h6>
+						<h6>Country: {{ potential.1.country }}</h6>
+						<h6>School: {{ potential.1.school }}</h6>
+						<h6>Faculty: {{ potential.1.faculty }}</h6>
+						<h6>Skills: {{ potential.1.skills }}</h6>
+						<h6>Interests: {{ potential.1.interests }}</h6>
+						
+						<form role="form" "action="/" method="post">
+							{% csrf_token %}
+							<div class="form-group">
+								{{ potential.2 }}
+								<a class="btn btn-success messageButton" target_name="{{potential.0.username}}" href="#" type="submit" data-toggle="modal" data-target="#myModal" href="#">Message</a>
+								<input type="submit" value="Invite" class="btn btn-warning">
+							</div>
+						</form>
+						
+					</div>
+					
+
+					
+				</div>
+			
+			</div>							
+		{% endfor %}
+		</div>
+      
+
+   </div>
+</div>
+
+
+{% include "demo/messaging_modal.html" %}
+
+
+{% endblock body %}
+
+{% block jsincludes %}
+		 <script type="text/javascript">
+		 
+			$(".messageButton").click(function(){
+				$("#recipient").val($(this).attr('target_name'));
+			});
+		 
+			$( ".filter_box" ).keyup(function() {
+				var searchString = $('.filter_box').val().toLowerCase();
+				
+				
+				$(".searchElem > .searchElem2 > .panel-body").each(function() {
+						var node = $(this);
+						var found = false;
+						var elems = $(this).find('h6');
+				
+						elems.each(function(){
+							var text = $(this).text();
+							if (text.toLowerCase().indexOf(searchString) >= 0)
+							{
+								found = true
+							}
+						});
+						
+						if (found == true){
+
+							$(this).parent().parent().show();
+						}
+						else
+						{
+							$(this).parent().parent().hide();
+
+						}
+						
+						
+							
+
+				});
+				
+				
+					
+			});
+			
+
+		</script>
+{% endblock jsincludes %}

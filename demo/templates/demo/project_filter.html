@@ -1,0 +1,52 @@
+{% extends "demo/loggedindefault.html" %}
+{% block head %}
+
+<style>
+   body {
+   padding-top: 60px;
+   padding-bottom: 40px;
+   background-color: #eee;
+   }
+   .custom-search-form{
+    margin-top:-10px;
+}
+   .title{
+    margin-top:-30px;
+}
+</style>
+{% endblock head %}
+
+{% block header %}
+<ol class="breadcrumb">
+   <li class="active">Project Categories</li>
+</ol>
+{% endblock header %}
+
+{% block body_header %}
+<h3 class="panel-title">Project Categories</h3>
+{% endblock body_header %}
+
+{% block body %}
+
+<div class="row">
+	<div class="col-md-12">
+	   <h2>Categories</h2>
+	   <hr>
+	   <h3>School</h3>
+	   <ul>
+		   <li><a href="{% url 'project_list' '4120' %}">GNG4120</a></li>
+		   <li><a href="{% url 'project_list' '3313' %}">ADM3313</a></li>
+	   </ul>
+	   <hr>
+	   <h3>Other</h3>
+	   <ul>
+		   <li><a href="{% url 'project_list' '*' %}">All projects</a></li>
+	   </ul>
+	   
+
+	</div>
+</div>
+
+
+
+{% endblock body %}

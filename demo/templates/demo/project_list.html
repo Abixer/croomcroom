@@ -1,0 +1,133 @@
+{% extends "demo/loggedindefault.html" %}
+{% block head %}
+
+<style>
+   body {
+   padding-top: 60px;
+   padding-bottom: 40px;
+   background-color: #eee;
+   }
+   .custom-search-form{
+    margin-top:-10px;
+}
+   .title{
+    margin-top:-30px;
+}
+</style>
+{% endblock head %}
+
+{% block header %}
+<ol class="breadcrumb">
+   <li class="active">Project List</li>
+</ol>
+{% endblock header %}
+
+{% block body_header %}
+<h3 class="panel-title">Project List</h3>
+{% endblock body_header %}
+
+{% block body %}
+
+<div class="row">
+	<div class="col-md-4 col-md-offset-8">
+		<p>
+		<div class="input-group custom-search-form">
+              <input type="text" name="fname" class="form-control filter_box" placeholder="Search">
+              <span class="input-group-btn">
+              <button class="btn btn-default" type="button">
+              <span class="glyphicon glyphicon-search"></span>
+             </button>
+             </span>
+        </div>
+		</p>
+	</div>
+</div>
+
+<div class="col-md-12">
+   <h2 class="title">Projects</h2>
+   {% for project in projects %}
+   <div class="row searchElem">
+   <hr />
+		<div class="col-md-9">
+			<h3>{{project.0.title}}</h3>
+			<ul>
+				<li>Industry: {{project.0.pitch_id.industry}}</li>
+				<li>Project lead: {{project.1}} </li>
+				{% if project.0.pitch_id.video %}
+					<li>Video: {{project.0.pitch_id.video}}</li>
+				{% endif %}
+				
+			<ul>
+		</div>
+		<div class="col-md3">
+			<br />
+			<a class="btn btn-success messageButton" target_name="{{project.0.title}}" href="#" type="submit" data-toggle="modal" data-target="#myModal" href="#">Message</a>
+		</div>
+		   
+   </div>
+   
+
+   
+   {% endfor %}
+   
+  
+</div>
+
+
+{% include "demo/messaging_modal.html" %}
+
+
+
+{% endblock body %}
+
+{% block jsincludes %}
+		 <script type="text/javascript">
+		 
+			 $(".messageButton").click(function(){
+					$("#recipient").val($(this).attr('target_name'));
+				});
+		 
+			$( ".filter_box" ).keyup(function() {
+				var searchString = $('.filter_box').val().toLowerCase();
+				
+				
+				$(".searchElem").each(function() {
+						var node = $(this);
+						var found = false;
+						var elems = $(this).find('li');
+				
+						elems.each(function(){
+							var text = $(this).text();
+							if (text.toLowerCase().indexOf(searchString) >= 0)
+							{
+								found = true
+							}
+						});
+						
+						var elems = $(this).find('h3');
+						elems.each(function(){
+							var text = $(this).text();
+							if (text.toLowerCase().indexOf(searchString) >= 0)
+							{
+								found = true
+							}
+						});
+						
+						if (found == true){
+							$(this).show();
+						}
+						else
+						{
+							$(this).hide();
+						}
+						
+						
+							
+
+				});
+				
+				
+					
+			});
+		</script>
+{% endblock jsincludes %}

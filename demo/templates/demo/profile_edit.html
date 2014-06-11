@@ -1,0 +1,114 @@
+{% extends "demo/loggedindefault.html" %}
+{% load staticfiles %}
+
+{% block head %}
+<style>
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+.centered-form{
+	margin-top: 60px;
+}
+
+</style>
+{% endblock head %}
+
+{% block header %}
+	<ol class="breadcrumb">
+		<li><a href="{% url "profile" %}">Profile</a></li>
+		<li class="active">Edit Profile</li>
+	</ol>
+{% endblock header %}
+	  
+	  {% block body_header %}
+   <h3 class="panel-title">Edit Profile</h3>						
+{% endblock body_header %}
+
+
+{% block body %}
+  
+<form role="form" "action="/" method="post">
+		 
+            {% csrf_token %}
+			<div class="form-group">
+				{{ user_form.as_p }}
+				{{ profile_form.as_p }}
+			</div>
+			
+            <div class="text-center">
+
+               <input class="btn btn-primary" type="submit" style="width:120px;" value="Save"/>
+               <a class="btn btn-danger" href="{% url "profile" %}" style="width:120px;" >Cancel</a>
+            </div>
+</form> 
+    
+    
+<!--
+			<div class="col-xs-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4>Edit your profile</h4>
+					</div>
+					<div class="panel-body">
+						<form role="form">
+							<div class="row">
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="text" name="first_name" id="first_name" class="form-control" value="Ned">
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="text" name="last_name" id="last_name" class="form-control"  value="Nadima">
+									</div>
+								</div>
+							</div>
+							
+
+							<div class="form-group">
+								<input type="email" name="email" id="email" class="form-control"  value="NedNadima@uottawa.ca">
+							</div>
+
+							
+							<div class="row">
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="text" name="province" id="province" class="form-control" value="Ontario">
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="text" name="country" id="country" class="form-control"  value="Canada">
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="text" name="school" id="school" class="form-control" value="University of Ottawa">
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="text" name="program" id="program" class="form-control"  value="Business">
+									</div>
+								</div>
+							</div>
+							
+							
+							<div class="text-center">
+							<a class="btn btn-primary" style="width:180px;" href="{% url "dashboard" %}">Save</i></a>
+							</div>
+						</form>
+			    	</div>
+	    		</div>
+    		</div>
+    	</div>
+    </div>   -->
+
+
+{% endblock body %}
+

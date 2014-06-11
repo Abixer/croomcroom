@@ -1,0 +1,223 @@
+{% extends "demo/projectdefault.html" %}
+{% load staticfiles %}
+
+{% block head %}
+<style>
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+.messageTable {
+	display: none;
+}
+</style>
+
+<script type="text/javascript">
+var currentShownUserTable = null;
+var currentShownProjectTable = null;
+
+var usersPrefix = "id_users-"
+var usersSuffix = "-content"
+var numUserForms;
+
+var projectsPrefix = "id_projects-"
+var projectsSuffix = "-content"
+var numProjectForms;
+
+function onLoad() {
+	var numUserFormsElem = document.getElementById("id_users-TOTAL_FORMS");
+	numUserForms = parseInt(numUserFormsElem.value);
+	var numProjectFormsElem = document.getElementById("id_projects-TOTAL_FORMS");
+	numProjectForms = parseInt(numProjectFormsElem.value);
+}
+
+function showUserTable(tableId) {
+	if (currentShownUserTable != null) {
+		var shownTable = document.getElementById(currentShownUserTable);
+		shownTable.style.display = "none";
+	}
+	var table = document.getElementById(tableId);
+	table.style.display = "block";
+	if (tableId != currentShownUserTable) {
+		clearUserInputs();
+	}
+	currentShownUserTable = tableId;
+}
+
+function showProjectTable(tableId) {
+	if (currentShownProjectTable != null) {
+		var shownTable = document.getElementById(currentShownProjectTable);
+		shownTable.style.display = "none";
+	}
+	var table = document.getElementById(tableId);
+	table.style.display = "block";
+	if (tableId != currentShownProjectTable) {
+		clearProjectInputs();
+	}
+	currentShownProjectTable = tableId;
+}
+
+function clearUserInputs() {
+	for (var i=0; i < numUserForms; i++) {
+		var id = usersPrefix + i + usersSuffix;
+		var contentInput = document.getElementById(id);
+		contentInput.value = "";
+	}
+}
+
+function clearProjectInputs() {
+	for (var i=0; i < numProjectForms; i++) {
+		var id = projectsPrefix + i + projectsSuffix;
+		var contentInput = document.getElementById(id);
+		contentInput.value = "";
+	}
+}
+
+function clearAllInputs() {
+	clearUserInputs();
+	clearProjectInputs();
+}
+
+window.addEventListener("load", onLoad, false);
+</script>
+{% endblock head%}
+
+{% block header %}
+<ol class="breadcrumb">
+   <li><a href="{% url "dashboard" %}">Home</a></li>
+   <li class="active">Messaging</li>
+</ol>
+{% endblock header %}
+
+{% block body_header %}
+<h3 class="panel-title">Messages for {{ project.title }}</h3>
+{% endblock body_header %}
+	
+{% block body %}
+	<form role="form" "action="/" method="POST">
+	{% csrf_token %}
+	{{ userMessageFormSet.management_form }}
+	{{ projectMessageFormSet.management_form }}
+	<!-- CREATE NEW MESSAGE -->
+	<div class="row">
+		<div class="col-md-12">
+			<a class="btn btn-danger" href="#" type="submit" data-toggle="modal" data-target="#myModal" href="#">Create New Message</a>
+		</div>
+	</div>
+	<br>
+	<!-- USER MESSAGES -->
+	<div class="row">
+		<div class="col-md-3">
+			  <h2>People</h2>
+			  <div class="list-group">
+				{% for person in people %}
+					<a href="#" onclick="showUserTable('userMessages{{ person.0.username }}')" class="list-group-item list-group-item-info">{{ person.0.username }} </a>
+				{% endfor %}
+			  </div>
+		</div>
+		<div class="col-md-9">
+			<h2>Messages</h2>
+			{% for person in people %}
+			<div id="userMessages{{ person.0.username }}" class="table-responsive messageTable">
+				<table class="table table-striped">
+					<tr>
+						<td>{{ project.title }} :</td>
+						<td>{{ person.2.as_p }}</td>
+						<td> <input class="btn btn-danger" onclick="clearProjectInputs();" type="submit" value="Send"/></td>	
+					</tr>
+					{% for message in person.1 %}
+					<tr>
+						<td>
+							<!-- 1 means user as sender, 2 means projects as sender -->
+							{% if message.type == 1 %}
+								{{ message.user_id_from.username }} :
+							{% else %}
+								{{ message.project_id_from.title }} :
+							{% endif %}
+						</td>
+						<td>
+							{{ message.content }}
+						</td>
+						<td>
+							{{ message.timestamp|date:"M d P" }}
+						</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+		   {% endfor %}
+		</div>
+    </div>
+	
+	<!-- PROJECT MESSAGES -->
+	<div class="row">
+		<div class="col-md-3">
+		  <h2>Projects</h2>
+			<div class="list-group">
+				{% for currProject in projects %}
+					<a href="#" onclick="showProjectTable('projectMessages{{ currProject.0.title }}')" class="list-group-item list-group-item-info">{{ currProject.0.title }} </a>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="col-md-9">
+			<h2>Messages</h2>
+			{% for currProject in projects %}
+			<div id="projectMessages{{ currProject.0.title }}" class="table-responsive messageTable">
+				<table class="table table-striped">
+					<tr>
+						<td>{{ project.title }} :</td>
+						<td>{{ currProject.2.as_p }}</td>
+						<td> <input class="btn btn-danger" onclick="clearUserInputs();" type="submit" value="Send"/> </td>
+					</tr>
+					{% for message in currProject.1 %}
+					<tr>
+						<td>
+							{{ message.project_id_from.title }} :
+						</td>
+						<td>
+							{{ message.content }}
+						</td>
+						<td>
+							{{ message.timestamp|date:"M d P" }}
+						</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+		   {% endfor %}
+		</div>
+    </div>
+
+<!-- Modal based on messaging_modal.html but need onclick javascript event handling on submit-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Send A Message as {{ project.title }}</h4>
+			</div>
+		  <form role="form" "action="/" method="POST">
+			 <div class="modal-body">
+				{% csrf_token %}	
+				<div class="form-group">
+					{{ message_form.as_p }}
+				</div>
+			 </div>
+			 <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<input class="btn btn-danger" type="submit" onclick="clearAllInputs();" value="Send"/>
+			 </div>
+		  </form>
+		</div>
+	</div>
+</div>
+
+  <footer>
+  </footer>
+</div> <!-- /container -->
+
+{% endblock body %}
+
+

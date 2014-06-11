@@ -1,0 +1,145 @@
+{% extends "demo/projectdefault.html" %}
+{% load staticfiles %}
+
+{% block header %}
+<ol class="breadcrumb">
+   <li><a href="{% url "dashboard" %}">Home</a></li>
+   <li><a href="{% url "startups" %}">Startups</a></li>
+   <li><a href="{% url "project" project_name %}">{{ project_name }}</a></li>
+</ol>
+<script type="text/javascript">
+
+	var currShownDiv = null;
+
+	function add_milestone(event) {
+		var before = "id_milestone_set-";
+		var formNumber = document.getElementById('id_milestone_set-INITIAL_FORMS').value;
+		var after = "-table";
+		var res = before.concat(formNumber,after);
+		
+		showdiv('None');
+		document.getElementById(res).value = 'milestone';
+   }
+   
+	function showdiv(id) {
+		var div = document.getElementById(id);
+		div.style.display = 'block';
+		currShownDiv = id;
+   }
+    
+	function hidediv() {
+		if (currShownDiv != null) {
+			var div = document.getElementById(currShownDiv);
+			div.style.display = 'none';
+			currShownDiv = null;
+		}
+	}
+   
+	$(document).ready(function() {
+		   $('#myModal').on('hidden.bs.modal', function (e) {
+			var milestoneForms = document.getElementsByClassName('milestoneForms');
+	   
+			for (var i = 0; i < noteForms.length; i++) {
+				milestoneForms[i].style.display = 'none';
+			}
+		})
+	   });
+</script>
+{% endblock header %}
+
+{% block body_header %}
+   <h3 class="panel-title">Business Plan</h3>
+{% endblock body_header %}
+
+{% block body %}
+			<div class="col-md-12">
+				<div class="col-md-6">
+					<form role="form" "action="/" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						<h2>Financial projections:</h2>
+						<div class="form-group">
+							<div class="row">	
+								{{ file_upload.as_p }}
+							</div>
+							<br>
+							<div class="row">
+								<input class="btn btn-primary" type="submit" value="Upload Projections" />
+							</div>
+
+								
+						</div>
+					</form>
+				</div>
+				<div class="col-md-6">
+					{% if uploaded_projections %}
+						<h4>Current projections</h4>
+						<ol>
+						{% for projection in uploaded_projections %}
+							<li>
+							 <a href="{{ projection.file_id.fileURL}}"> {{projection.file_id.uploaded.name}}</a>
+							</li>
+						{% endfor %}
+						</ol>
+					{% endif %}
+				</div>
+				<div class="col-md-12">
+					<br>
+					<h2 style="text-decoration:underline; text-align:center;">Milestones</h2>
+					<hr>
+					{% for milestone in milestones %}
+					<div class="row">
+						<h3>Milestone {{ forloop.counter }}: <button type="button" class="btn btn-default btn-xs pull-right" onclick="showdiv('{{ milestone.milestone_id }}');" data-toggle="modal" data-target="#myModal">Edit</button></h3>
+					</div>
+					<div class="row">
+						<h4>Content</h4>
+					</div>
+					<div class="row">
+						<p>{{ milestone.content }}</p>
+					</div>
+					<div class="row">
+						<h4>Due Date</h4>
+					</div>
+					<div class="row">
+						<p>{{ milestone.due_date|date:'M d Y' }}</p>
+					</div>
+					<hr>
+					{% endfor %}
+					
+					<a class="btn btn-primary" href="#" type="submit" name="add_milestone" onclick="add_milestone(event);" data-toggle="modal" data-target="#myModal" href="#">Add New Milestone</a>
+										
+					<!-- Modal -->
+					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-md">
+						   <div class="modal-content">
+								<div class="modal-header">
+									<button type="button" onclick="hidediv()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title" id="myModalLabel">Add/Edit Milestone</h4>
+							    </div>
+							  <form role="form" "action="/" method="POST">
+								 <div class="modal-body">
+									{% csrf_token %}	
+									<div class="form-group">
+									   {{formset.management_form}}
+									   {% for form in formset %}
+									   <div class="milestoneForms" id="{{ form.milestone_id.value }}" style="display: none;">
+										  {{ form.as_p }}
+									   </div>
+									   {% endfor %}
+									</div>
+								 </div>
+								 <div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal" onclick="hidediv()">Close</button>
+									<input class="btn btn-primary" type="submit" name="business_model_key_partners" value="Add/Edit Milestone"/>
+								 </div>
+							  </form>
+						   </div>
+						</div>
+					 </div>
+				 </div>
+    		</div>
+    	</div>
+    </div> <!-- /container -->
+
+
+{% endblock body %}
+

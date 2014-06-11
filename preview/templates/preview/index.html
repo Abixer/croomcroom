@@ -1,0 +1,123 @@
+{% extends "preview/default.html" %}
+{% load staticfiles %}
+
+{% block head %}
+<style type="text/css">
+   body{
+   text-align: center;
+   background: url(../../static/preview/images/cover.jpg) no-repeat center;
+   background-size: cover;
+   padding-top: 15px;
+   padding-bottom: 0px;
+   }
+   .logo {
+   width:220px;
+   }
+   .iframe {
+   padding-top:20px;
+   max-width: 600px;
+   }
+   .information {
+   padding-top:0px;
+   padding-bottom:15px;
+   max-width: 700px;
+   }
+   h1, h2, h2, h3, h4, h5, h6, input{
+   font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+   color:white;
+   }
+   .emailPadding{
+   padding-top:10px;
+   }
+   .socialbar{
+   padding-top:25px;
+   }
+   .margintop{
+   margin-top:0px;
+   }
+   .marginbottom{
+   margin-bottom:0px;
+   }
+   .js-video {
+   height: 0;
+   padding-top: 25px;
+   padding-bottom: 52%;
+   margin-bottom: 10px;
+   position: relative;
+   overflow: hidden;
+   }
+   .js-video.widescreen {
+   padding-bottom: 57.25%;
+   }
+   .js-video.vimeo {
+   padding-top: 0;
+   }
+   .js-video embed, .js-video iframe, .js-video object, .js-video video {
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   position: absolute;
+   }
+   ul.errorlist {
+   display:none;
+   }
+</style>
+{% endblock head %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block header %}
+{% if success %}
+<div class="alert alert-success">Added to mailing list successfully</div>
+{% endif %}
+{% if error %}
+<div class="alert alert-danger">Not a valid email, please try again</div>
+{% endif %}
+{% endblock header%}
+
+{% block body %}
+<img class="logo" src="{% static "preview/images/logo.png" %}" class="img-responsive" alt="Croomer"/>
+<div class="container iframe">
+   <div class="js-video [vimeo, widescreen]">
+<iframe src="//player.vimeo.com/video/88401648?title=0&amp;byline=0&amp;portrait=0&amp;color=b32224" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="http://vimeo.com/88401648">Croomer - where ideas matter!</a> from <a href="http://vimeo.com/user25720495">Mohsen Badv</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+   </div>
+</div>
+<div class="container information">
+   <h2 class="margintop">Enter your email below to get updates on Croomer's progress</h2>
+   <h3 class="margintop">Croomer is a collaborative online tool to connect the right people and turn ideas into businesses</h3>
+</div>
+<div class="container">
+<div class="row">
+   <div class="col-md-2 col-xs-1"></div>
+   <div class="col-md-8 col-xs-10">
+      <form class="form-inline" role="form "action="/" method="post">
+         {% csrf_token %}
+         <div class="form-group emailPadding">
+            {{ form.as_p }}
+         </div>
+         <input class="btn btn-success btn-lg" type="submit" value="Subscribe" />
+      </form>
+   </div>
+   <div class="col-md-2 col-xs-1"></div>
+</div>
+</div>
+<div class="socialbar">
+   <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/Croomers">
+   <i class="fa fa-facebook"></i>
+   </a>
+   <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/Croomers" >
+   <i class="fa fa-twitter"></i>
+   </a>
+   <!--
+   <a class="btn btn-social-icon btn-linkedin">
+   <i class="fa fa-linkedin"></i>
+   </a>
+   -->
+</div>
+<h6>
+   ©2014 Croomer, Inc All rights reserved.
+</h6>
+</div>
+{% endblock body %}

@@ -1,0 +1,10 @@
+Design Decisions :
+
+1. Django vs Ruby on Rails
+	We chose django because it offers more transparency as to how things are done,
+	making every decision in the web making process more explicit.
+	
+2. Database
+	For now we are using SQLite for development, but we will change to MySQL once
+	we have a dedicated server.
+	

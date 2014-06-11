@@ -1,0 +1,404 @@
+{% extends "demo/projectdefault.html" %}
+{% load staticfiles %}
+{% block head %}
+<style>
+   body {
+   padding-top: 60px;
+   padding-bottom: 40px;
+   background-color: #eee;
+   }
+   .boxStyle {
+   background-color:#FAFAFA; 
+   border:2px  dotted #666; 
+   overflow: hidden; 
+   padding-top:0px;
+   padding-bottom:50px;
+   }
+   .border1 {
+   border-right: none;
+   }
+   .border2 {
+   border-right: none;
+   border-left: none;
+   border-top: none;
+   }
+   .border3 {
+   border-right: none;
+   border-left: none;
+   border-top: none;
+   border-bottom: none;
+   }
+   .border4 {
+   border-right: none;
+   border-top: none;
+   }
+   .border5 {
+   border-top: none;
+   }
+   /* vertical alignment styles */
+   .col-top {
+   vertical-align:top;
+   }
+   .col-middle {
+   vertical-align:middle;
+   }
+   .col-bottom {
+   vertical-align:bottom;
+   }
+   /* columns of same height styles */
+   .container-xs-height {
+   display:table;
+   padding-left:0px;
+   padding-right:0px;
+   }
+   .row-xs-height {
+   display:table-row;
+   }
+   .col-xs-height {
+   display:table-cell;
+   float:none;
+   }
+   @media (min-width: 768px) {
+   .container-sm-height {
+   display:table;
+   padding-left:10px;
+   padding-right:10px;
+   }
+   .row-sm-height {
+   display:table-row;
+   }
+   .col-sm-height {
+   display:table-cell;
+   float:none;
+   }
+   }
+   @media (min-width: 992px) {
+   .container-md-height {
+   display:table;
+   padding-left:0px;
+   padding-right:0px;
+   }
+   .row-md-height {
+   display:table-row;
+   }
+   .col-md-height {
+   display:table-cell;
+   float:none;
+   }
+   }
+   @media (min-width: 1200px) {
+   .container-lg-height {
+   display:table;
+   padding-left:0px;
+   padding-right:0px;
+   }
+   .row-lg-height {
+   display:table-row;
+   }
+   .col-lg-height {
+   display:table-cell;
+   float:none;
+   }
+   }
+   .tableTitle {
+   padding-top:10px;
+   padding-bottom:5px;
+   font-family:sans-serif;
+   font-size:11px;
+   letter-spacing:1px;
+   color:#000000;
+   }
+</style>
+{% endblock head %}
+{% block header %}
+<ol class="breadcrumb">
+   <li><a href="{% url "dashboard" %}">Home</a></li>
+   <li><a href="{% url "startups" %}">Startups</a></li>
+   <li><a href="{% url "project" project_name %}">{{ project_name }}</a></li>
+</ol>
+{% endblock header %}
+{% block sidebar %}
+{% endblock sidebar %}
+{% block contentbar %}
+   <div class="panel panel-default">
+      <div class="panel-heading">
+         <h3 class="panel-title">Business Model Canvas</h3>
+      </div>
+      <div class="panel-body">
+{% if error %} 
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Warning!</strong> {{ error }}
+</div>
+{% endif %}        	
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+				<h3>Select your canvas </h3>
+			</div>
+			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
+				<form role="form" "action="/" method="POST">
+					{% csrf_token %}
+					{{ selectForm.as_p }}
+					<input type="submit" class="btn btn-info" value="Load Canvas"/>
+				</form>
+			</div>
+			
+			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
+				 <form role="form" "action="/" method="POST">
+					{% csrf_token %}
+					{{ newModelForm.as_p }}
+					<input type="submit" class="btn btn-success" value="New Canvas"/>
+				</form>
+			</div>
+		</div>
+		
+		<br />
+		
+		<h2>Editing {{canvasName}} </h2>
+		 
+         <div class="fluid-container container-sm-height">
+            <div class="row">
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 boxStyle border1 col-sm-height col-top">
+                  <div class="tableTitle">KEY PARTNERS <a class="pull-right" onclick="key_partners(event);" data-toggle="modal" data-target="#myModal" href="#" >Add</a></div>
+                  <div class="list-group">
+                  {% for key_partner in key_partners %}
+                  <a href="#" onclick="showdiv('{{ key_partner.business_model_notes_id }}');" data-toggle="modal" data-target="#myModal" class="list-group-item list-group-item-{{key_partner.color}}">{{key_partner.title}}</a>
+                  {% endfor %}
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 boxStyle border1 col-sm-height col-top">
+                  <div class="row">
+                     <div class="col-xs-12 boxStyle border2">
+                        <div class="tableTitle">KEY ACTIVITIES <a class="pull-right" onclick="key_activities(event);" data-toggle="modal" data-target="#myModal" href="#" >Add</a></div>
+                        <div class="list-group">
+                        {% for key_activitie in key_activities %}
+                        <a href="#" onclick="showdiv('{{ key_activitie.business_model_notes_id }}');" data-toggle="modal" data-target="#myModal" class="list-group-item list-group-item-{{key_activitie.color}}">{{key_activitie.title}}</a>
+                        {% endfor %}
+                        </div>
+                     </div>
+                     <div class="col-xs-12 boxStyle border3">
+                        <div class="tableTitle">KEY RESSOURCES <a class="pull-right" onclick="key_resources(event);" data-toggle="modal" data-target="#myModal" href="#" >Add</a></div>
+                        <div class="list-group">
+                        {% for key_resource in key_resources %}
+						<a href="#" onclick="showdiv('{{ key_resource.business_model_notes_id }}');" data-toggle="modal" data-target="#myModal" class="list-group-item list-group-item-{{key_resource.color}}">{{key_resource.title}}</a>
+                        {% endfor %}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 boxStyle border1 col-sm-height">
+                  <div class="tableTitle">VALUE PROPOSITION <a class="pull-right" onclick="value_propositions(event);" data-toggle="modal" data-target="#myModal" href="#" >Add</a></div>
+                  <div class="list-group">
+                  {% for value_proposition in value_propositions %}
+                  <a href="#" onclick="showdiv('{{ value_proposition.business_model_notes_id }}');" data-toggle="modal" data-target="#myModal" class="list-group-item list-group-item-{{value_proposition.color}}">{{value_proposition.title}}</a>
+                  {% endfor %}
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 boxStyle border1 col-sm-height col-top">
+                  <div class="row">
+                     <div class="col-xs-12 boxStyle border2">
+                        <div class="tableTitle">CUSTOMER RELATIONSHIPS <a class="pull-right" onclick="customer_relationships(event);" data-toggle="modal" data-target="#myModal" href="#" >Add</a></div>
+                        <div class="list-group">
+                        {% for customer_relationship in customer_relationships %}
+                        <a href="#" onclick="showdiv('{{ customer_relationship.business_model_notes_id }}');" data-toggle="modal" data-target="#myModal" class="list-group-item list-group-item-{{customer_relationship.color}}">{{customer_relationship.title}}</a>
+                        {% endfor %}
+                        </div>
+                     </div>
+                     <div class="col-xs-12 boxStyle border3">
+                        <div class="tableTitle">CHANNELS <a class="pull-right" onclick="channels(event);" data-toggle="modal" data-target="#myModal" href="#" >Add</a></div>
+                        <div class="list-group">
+                        {% for channel in channels %}
+                        <a href="#" onclick="showdiv('{{ channel.business_model_notes_id }}');" data-toggle="modal" data-target="#myModal" class="list-group-item list-group-item-{{channel.color}}">{{channel.title}}</a>
+                        {% endfor %}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 boxStyle col-sm-height">
+                  <div class="tableTitle">CUSTOMER SEGMENTS <a class="pull-right" onclick="customer_segments(event);" data-toggle="modal" data-target="#myModal" href="#" >Add</a></div>
+                  <div class="list-group">
+                  {% for customer_segment in customer_segments %}
+                  <a href="#" onclick="showdiv('{{ customer_segment.business_model_notes_id }}');" data-toggle="modal" data-target="#myModal" class="list-group-item list-group-item-{{customer_segment.color}}">{{customer_segment.title}}</a>
+                  {% endfor %}
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-xs-12 col-sm-6 boxStyle border4">
+                  <div class="tableTitle">COST STRUCTURE <a class="pull-right" onclick="cost_structure(event);" data-toggle="modal" data-target="#myModal" href="#" >Add</a></div>
+                  <div class="list-group">
+                  {% for cost_structur in cost_structure %}
+                  <a href="#" onclick="showdiv('{{ cost_structur.business_model_notes_id }}');" data-toggle="modal" data-target="#myModal" class="list-group-item list-group-item-{{cost_structur.color}}">{{cost_structur.title}}</a>
+                  {% endfor %}
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-6 boxStyle border5 ">
+                  <div class="tableTitle">REVENUE STREAMS <a class="pull-right" onclick="revenue_streams(event);" data-toggle="modal" data-target="#myModal" href="#" >Add</a></div>
+                  <div class="list-group">
+                  {% for revenue_stream in revenue_streams %}
+                  <a href="#" onclick="showdiv('{{ revenue_stream.business_model_notes_id }}');" data-toggle="modal" data-target="#myModal" class="list-group-item list-group-item-{{revenue_stream.color}}">{{revenue_stream.title}}</a>
+                  {% endfor %}
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Modal -->
+         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                     <h4 class="modal-title" id="myModalLabel">Add New Note</h4>
+                  </div>
+                  <form role="form" "action="/" method="POST">
+                     <div class="modal-body">
+                        {% csrf_token %}
+                        <div class="form-group">
+                           {{formset.management_form}}
+                           {% for form in formset %}
+                           <div class="noteForms" id="{{ form.business_model_notes_id.value }}" style="display: none;">
+                              {{ form.as_p }}
+                           </div>
+                           {% endfor %}
+                        </div>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input id="buttonNote" class="btn btn-primary" type="submit" name="buttonNote" value="Edit Note"/>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+
+{% endblock contentbar %}	
+{% block jsincludes %}
+<script>
+   function key_partners(event) {
+   	var before = "id_business_model_notes_set-";
+   	var formNumber = document.getElementById('id_business_model_notes_set-INITIAL_FORMS').value;
+   	var after = "-table";
+   	var res = before.concat(formNumber,after);
+   	
+   	var div = document.getElementById('None');
+       div.style.display = 'block';
+       document.getElementById(res).value = 'key_partners';
+       
+    document.getElementById('buttonNote').value = 'Add Note';
+   }
+   function key_activities(event) {
+   	var before = "id_business_model_notes_set-";
+   	var formNumber = document.getElementById('id_business_model_notes_set-INITIAL_FORMS').value;
+   	var after = "-table";
+   	var res = before.concat(formNumber,after);
+   	
+   	var div = document.getElementById('None');
+       div.style.display = 'block';
+       document.getElementById(res).value = 'key_activities';
+       
+    document.getElementById('buttonNote').value = 'Add Note';
+   }
+   function key_resources(event) {
+   	var before = "id_business_model_notes_set-";
+   	var formNumber = document.getElementById('id_business_model_notes_set-INITIAL_FORMS').value;
+   	var after = "-table";
+   	var res = before.concat(formNumber,after);
+   	
+   	var div = document.getElementById('None');
+       div.style.display = 'block';
+       document.getElementById(res).value = 'key_resources';
+       
+    document.getElementById('buttonNote').value = 'Add Note';
+   }
+   function value_propositions(event) {
+   	var before = "id_business_model_notes_set-";
+   	var formNumber = document.getElementById('id_business_model_notes_set-INITIAL_FORMS').value;
+   	var after = "-table";
+   	var res = before.concat(formNumber,after);
+   	
+   	var div = document.getElementById('None');
+       div.style.display = 'block';
+       document.getElementById(res).value = 'value_propositions';
+       
+    document.getElementById('buttonNote').value = 'Add Note';
+   }
+   function customer_relationships(event) {
+   	var before = "id_business_model_notes_set-";
+   	var formNumber = document.getElementById('id_business_model_notes_set-INITIAL_FORMS').value;
+   	var after = "-table";
+   	var res = before.concat(formNumber,after);
+   	
+   	var div = document.getElementById('None');
+       div.style.display = 'block';
+       document.getElementById(res).value = 'customer_relationships';
+       
+    document.getElementById('buttonNote').value = 'Add Note';
+   }
+   function channels(event) {
+   	var before = "id_business_model_notes_set-";
+   	var formNumber = document.getElementById('id_business_model_notes_set-INITIAL_FORMS').value;
+   	var after = "-table";
+   	var res = before.concat(formNumber,after);
+   	
+   	var div = document.getElementById('None');
+       div.style.display = 'block';
+       document.getElementById(res).value = 'channels';
+       
+    document.getElementById('buttonNote').value = 'Add Note';
+   }
+   function customer_segments(event) {
+   	var before = "id_business_model_notes_set-";
+   	var formNumber = document.getElementById('id_business_model_notes_set-INITIAL_FORMS').value;
+   	var after = "-table";
+   	var res = before.concat(formNumber,after);
+   	
+   	var div = document.getElementById('None');
+       div.style.display = 'block';
+       document.getElementById(res).value = 'customer_segments';
+       
+    document.getElementById('buttonNote').value = 'Add Note';
+   }
+   function cost_structure(event) {
+   	var before = "id_business_model_notes_set-";
+   	var formNumber = document.getElementById('id_business_model_notes_set-INITIAL_FORMS').value;
+   	var after = "-table";
+   	var res = before.concat(formNumber,after);
+   	
+   	var div = document.getElementById('None');
+       div.style.display = 'block';
+       document.getElementById(res).value = 'cost_structure';
+       
+    document.getElementById('buttonNote').value = 'Add Note';
+   }
+   function revenue_streams(event) {
+   	var before = "id_business_model_notes_set-";
+   	var formNumber = document.getElementById('id_business_model_notes_set-INITIAL_FORMS').value;
+   	var after = "-table";
+   	var res = before.concat(formNumber,after);
+   	
+   	var div = document.getElementById('None');
+       div.style.display = 'block';
+       document.getElementById(res).value = 'revenue_streams';
+       
+    document.getElementById('buttonNote').value = 'Add Note';
+   }
+   function showdiv(id) {
+       var div = document.getElementById(id);
+       div.style.display = 'block';
+   }
+   $(document).ready(function() {
+       $('#myModal').on('hidden.bs.modal', function (e) {
+       	var noteForms = document.getElementsByClassName('noteForms'), i;
+   
+   		for (var i = 0; i < noteForms.length; i ++) {
+       	noteForms[i].style.display = 'none';
+   		}
+   		
+   		document.getElementById('buttonNote').value = 'Edit Note';
+   	})
+   });
+</script>
+{% endblock jsincludes %}

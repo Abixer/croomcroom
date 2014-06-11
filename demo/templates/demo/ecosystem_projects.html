@@ -1,0 +1,46 @@
+{% extends "demo/projectdefault.html" %}
+{% load staticfiles %}
+{% block header %}
+<ol class="breadcrumb">
+   <li><a href="{% url "dashboard" %}">Home</a></li>
+   <li><a href="{% url "startups" %}">Startups</a></li>
+   <li><a href="{% url "project" project_name %}">Croomer</a></li>
+   <li><a href="{% url "ecosystem" project_name %}">Ecosystem</a></li>
+   <li class="active">Projects</li>
+</ol>
+{% endblock header %}
+{% block body_header %}
+<h3 class="panel-title">Projects</h3>
+{% endblock body_header %}
+{% block body %}
+<div class="feed">
+   <div class="row">
+      <div class="col-md-3 col-md-offset-1">
+         <div class="panel panel-default">
+            <div class="panel-heading">
+               <p>IMS</p>
+            </div>
+            <div class="panel-body">
+               <img class="img-responsive" src="{% static "demo/images/unknown.jpg" %}" alt="My image"/>
+               <hr>
+               <p>A very userfriendly inventory management system.</p>
+               <button class="btn btn-info">Contact info</button>
+            </div>
+         </div>
+      </div>
+      <div class="col-md-3">
+         <div class="panel panel-default">
+            <div class="panel-heading">
+               <p>AuditS</p>
+            </div>
+            <div class="panel-body">
+               <img class="img-responsive" src="{% static "demo/images/unknown.jpg" %}" alt="My image"/>
+               <hr>
+               <p>A new system to better audit your company.</p>
+               <button class="btn btn-info">Contact info</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock body %}

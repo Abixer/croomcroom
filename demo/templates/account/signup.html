@@ -1,0 +1,72 @@
+{% extends "account/base.html" %}
+{% load url from future %}
+{% load i18n %}
+
+{% block head %}
+<style>
+   .main{
+   margin-top:5%;
+   display:table;
+   margin-right:auto;
+   margin-left:auto;
+   }
+   .footer{
+   padding-top:10px;
+   }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div class="row centered-form">
+<div class="col-xs-10 col-sm-10 col-md-8 col-lg-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
+   <div class="panel panel-default">
+      <div class="panel-heading">
+         <h2>{% trans "Sign Up " %}<small>It's free!</small></h2>
+      </div>
+      <div class="panel-body">
+         <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">login</a>.{% endblocktrans %}</p>
+         <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+            {% csrf_token %}
+            {{ form.non_field_errors }}   
+            <p>
+               <label for="id_first_name">Firstname</label>
+               {{ form.first_name.errors }}
+               <input id="id_first_name" class="form-control" maxlength="30" name="first_name" placeholder="Firstname" type="text"/>
+            </p>
+            <p> 
+               <label for="id_last_name">Lastname</label>
+               {{ form.last_name.errors }}
+               <input id="id_last_name" class="form-control" name="last_name" placeholder="Lastname" type="text"/>
+            </p>
+            <p>
+               <label for="id_username">Username</label>
+               {{ form.username.errors }}
+               <input id="id_username" class="form-control" name="username" placeholder="Username" type="text"/>
+            </p>
+            <p>
+               <label for="id_email">Email</label>
+               {{ form.email.errors }}
+               <input id="id_email" class="form-control" name="email" placeholder="Email" type="text"/>
+            </p>
+            <p>
+               <label for="id_password1">Password</label>
+               {{ form.password1.errors }}
+               <input id="id_password1" class="form-control" name="password1" placeholder="Password" type="password"/>
+            </p>
+            <p>
+               <label for="id_password2">Confirm Password</label>
+               {{ form.password2.errors }}
+               <input id="id_password2" class="form-control" name="password2" placeholder="Confirm Password" type="password"/>
+               <input id="id_confirmation_key" name="confirmation_key" type="hidden">
+            </p>
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <div class="footer"><button class="btn btn-success" type="submit">{% trans "Sign Up" %} </button></div>
+         </form>
+      </div>
+   </div>
+   
+   
+</div>
+{% endblock content %}

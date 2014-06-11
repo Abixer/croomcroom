@@ -1,0 +1,44 @@
+{% extends "account/base.html" %}
+{% load url from future %}
+{% load i18n %}
+
+{% block head %}
+<style>
+   .main{
+   margin-top:5%;
+   display:table;
+   margin-right:auto;
+   margin-left:auto;
+   }
+   .form{
+   margin-top:15px;
+   }
+   .footer{
+   padding:20px;
+   }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div class="row centered-form">
+   <div class="col-xs-10 col-sm-10 col-md-8 col-lg-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
+      <div class="panel panel-default">
+         <div class="panel-heading">
+            <h2>{% trans "Verify Your E-mail Address" %}</h2>
+         </div>
+         <div class="panel-body">
+            {% url 'account_email' as email_url %}
+            <p>{% blocktrans %}This part of the site requires us to verify that
+               you are who you claim to be. For this purpose, we require that you
+               verify ownership of your e-mail address. {% endblocktrans %}
+            </p>
+            <p>{% blocktrans %}We have sent an e-mail to you for
+               verification. Please click on the link inside this e-mail. Please
+               contact us if you do not receive it within a few minutes.{% endblocktrans %}
+            </p>
+            <p>{% blocktrans %}<strong>Note:</strong> you can still <a href="{{email_url}}">change your e-mail address</a>.{% endblocktrans %}</p>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}

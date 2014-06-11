@@ -1,0 +1,60 @@
+{% extends "demo/loggedindefault.html" %}
+{% load staticfiles %}
+{% load activetag %}
+
+         {% block header %}
+         <ol class="breadcrumb">
+            <li><a href="{% url "dashboard" %}">Home</a></li>
+            <li><a href="{% url "startups" %}">Startups</a></li>
+            <li class="active">{{ project_name }}</li>
+         </ol>
+         {% endblock header %}
+		 
+		 
+         {% block sidebar %}
+         <div class="row">
+            <div class="col-md-3">
+            <div class="panel panel-default">
+ 			  <div class="panel-heading">
+    			<h3 class="panel-title">Project Menu</h3>
+ 			 </div>
+ 			
+ 			 <div class="panel-body">
+               <ul class="nav nav-pills nav-stacked">
+				  <li class="{% active request '/$' %}"><a href="{% url "project" project_name %}"><i class="fa fa-bars fa-fw"></i> Feeds</a></li>
+                  <li class="{% active request 'team_profile' %} {% active request 'recruit_team' %}"><a href="{% url "team_profile" project_name %}"><i class="fa fa-users fa-fw"></i> Team Profile</a></li>
+                  <li class="{% active request 'messaging' %}"><a href="{% url "project_messaging" project_name %}"><i class="glyphicon glyphicon-comment"></i> Project Messages</a></li>
+				  <li class="{% active request 'ecosystem' %}
+					 {% active request 'investors' %}
+					 {% active request 'services' %}
+					 {% active request 'resource_center' %}
+					 {% active request 'ecosystem_projects' %}
+					 {% active request 'ecosystem_experts' %} "><a href="{% url "ecosystem" project_name %}"><i class="fa fa-cloud fa-fw"></i> Croomer Ecosystem</a></li>
+			   </ul>
+            </div>
+			
+			
+			<div class="panel-heading">
+    			<h3 class="panel-title">Business Menu</h3>
+ 			</div>
+			
+			<div class="panel-body">
+               <ul class="nav nav-pills nav-stacked">
+				  <li class="{% active request 'project_pitch' %}"><a href="{% url "project_pitch" project_name %}"><i class="fa fa-file-o fa-fw"></i> 1. Project Pitch</a></li>
+                  <li class="{% active request 'businessModel' %}"><a href="{% url "businessModel" project_name -1 %}"><i class="fa fa-table fa-fw"></i> 2. Business Model</a></li>
+                  <li class="{% active request 'businessPlan' %}"><a href="{% url "businessPlan" project_name %}"><i class="fa fa-bar-chart-o fa-fw"></i> 3. Business Plan</a></li>
+
+                  
+                  <li class="{% active request 'project_validation' %}"><a href="{% url "project_validation" project_name %}"><i class="fa fa-check fa-fw"></i> 4. Validation</a></li>
+                  <li class="{% active request 'mvp' %}"><a href="{% url "mvp" project_name %}"><i class="fa fa-play-circle fa-fw"></i> 5. MVP</a></li>
+				                    <li class="{% active request 'pitchCard' %}"><a href="{% url "pitchCard" project_name -1 %}"><i class="fa fa-book fa-fw"></i> 6. Pitch Card</a></li>
+				  
+	
+
+				</ul>
+			</div>
+            </div>
+		</div>
+
+		{% endblock sidebar %}
+           

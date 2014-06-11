@@ -1,0 +1,45 @@
+{% extends "demo/loggedindefault.html" %}
+{% load staticfiles %}
+{% load activetag %}
+
+{% block head %}
+<style>
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+</style>
+{% endblock head%}
+
+{% block header %}
+	<ol class="breadcrumb">
+		<li class="active">Home</li>
+	</ol>
+{% endblock header %}
+	
+
+
+  {% block body_header %}
+   <h3 class="panel-title">About</h3>
+							
+{% endblock body_header %}
+{% block body %}
+<h3>
+For Students:
+</h3>
+<p>
+Croomer is a campus based social network that allows entrepreneurial minded students with complementary skills to find each other and turn ideas into businesses.
+</p>
+
+<h3>
+For Institutions:
+</h3>
+<p>
+Croomer is a campus based social network that allow academic institutions to manage their entrepreneurial activities on campus and help students succeed.
+</p>
+
+
+{% endblock body %}
+
+

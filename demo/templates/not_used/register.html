@@ -1,0 +1,83 @@
+{% extends "demo/default.html" %}
+{% load staticfiles %}
+
+{% block head %}
+<style>
+   body {
+   padding-top: 40px;
+   padding-bottom: 40px;
+   background-color: #eee;
+   background: url('http://farm8.staticflickr.com/7379/12798595233_b8696d1635_k.jpg') fixed;
+   background-size: cover;
+   }
+   .centered-form{
+   margin-top: 50px;
+   }
+   #index h1 {
+   color:white;
+   }
+</style>
+{% endblock head %}
+{% block body %}
+<div class="container">
+   <div class="row centered-form" id="index">
+      <h1 class="text-center">
+         Connect, share ideas, and discover opportunities
+      </h1>
+   </div>
+   <div class="row centered-form">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
+         <div class="panel panel-default">
+            <div class="panel-heading">
+               <h2>Get started <small>It's free!</small></h2>
+            </div>
+            <div class="panel-body">
+               <form method="post" action="{% url 'account_signup' %}">
+               {% csrf_token %}
+                  <div class="row">
+                     <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="form-group">
+                           <input type="text" name="first_name" class="form-control" placeholder="First Name">
+                        </div>
+                     </div>
+                     <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="form-group"> 
+                           <input type="text" name="last_name" class="form-control" placeholder="Last Name">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-xs-12 col-sm-6 col-md-6">
+                     <div class="form-group">
+                     <input type="text" name="username" class="form-control" placeholder="Username">
+                     </div>
+                     </div>
+                     <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="form-group">
+                           <input type="text" name="email" class="form-control" placeholder="Email Address">
+                        </div>
+                     </div>
+                     </div>
+                  <div class="row">
+                     <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="form-group">
+                           <input type="password" name="password1" class="form-control" placeholder="Password">
+                        </div>
+                     </div>
+                     <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="form-group">
+                           <input type="password" name="password2" class="form-control" placeholder="Confirm Password">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="text-center">
+                     <button type="submit" class="btn btn-primary" style="width:180px;">Sign Up <i class="fa fa-arrow-right"></i></a>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- /container -->
+{% endblock body %}

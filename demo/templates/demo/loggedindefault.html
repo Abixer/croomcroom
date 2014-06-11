@@ -1,0 +1,200 @@
+{% load staticfiles %}
+{% load activetag %}
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+	  <meta charset="utf-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <meta name="description" content="">
+	  <meta name="author" content="">
+	  <link rel="shortcut icon" href="{% static "ico/favicon.png" %}">
+	  <title>{% block title %} Croomer {% endblock title %}</title>
+	  <!-- Bootstrap -->
+	  <link href="{% static "demo/css/bootstrap.min.css" %}" rel="stylesheet">
+	  <!-- Font Awsome -->
+	  <link href="{% static "demo/css/font-awesome.min.css" %}" rel="stylesheet">
+	  <!-- Social Buttons -->
+	  <link href="{% static "demo/css/bootstrap-social.css" %}" rel="stylesheet">
+	  
+		<style>
+         body {
+         padding-top: 60px;
+         padding-bottom: 40px;
+         background-color: #eee;
+         }
+		</style>
+      
+      {% block head %}
+      {% endblock head%}
+   
+   </head>
+   <body>
+   
+      {% block navbar %}
+      <style>
+         .label,.glyphicon { margin-right:5px; }
+		 .dropdown-menu { min-width: 250px; }
+      </style>
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+         <div class="container">
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+               <a class="navbar-brand" href="{% url "dashboard" %}">Croomer</a>
+            </div>
+            <div class="navbar-collapse collapse">
+               <ul class="nav navbar-nav navbar-right">
+                  <li class="{% active request 'dashboard' %}"><a href="{% url "dashboard" %}"><span class="glyphicon glyphicon-home"></span>Home</a></li>
+                  <li class="dropdown {% active request 'messaging' %}">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+                        class="glyphicon glyphicon-comment"></span>Messages
+						{%if unread_messages|length > 0%}<span class="label label-primary">
+							{%if unread_messages|length < 10 %}
+								{{ unread_messages|length }}
+							{% else %}
+								10+
+							{% endif %}
+							</span></a>
+						{% endif %}
+                     <ul class="dropdown-menu">
+						{% for message in unread_messages %}
+						<li><a href="#"><span class="label label-primary">{{message.timestamp|date:"d M"}}</span>
+						{% if message.type == 1 %}
+							{{ message.user_id_from.username }} :
+						{% else %}
+							{{ message.project_id_from.title }} :
+						{% endif %}
+						{{message.content}}</a></li>
+						{% endfor %}
+						{%if unread_messages|length > 0%}
+						<li class="divider"></li>
+						{% endif %}
+                        <li><a href="{% url "messaging" %}" class="text-center">Go To Message Menu</a></li>
+                     </ul>
+                  </li>
+				  
+				  
+				  
+				  
+				  
+                  <li class="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+                        class="glyphicon glyphicon-flag"></span>Notifications 
+						{% if notificationCount == 0 %}
+							<span class="label label-info">{{ notificationCount }}</span>
+						{% else %}
+							<span class="label label-warning">{{ notificationCount }}</span>
+						{% endif %}
+						
+					</a>
+
+                     <ul class="dropdown-menu">
+						{% for notification in notifications %}
+							<li><span class="label{% if not notification.0.hasSeen %}} label-warning  {% else %} label-info {% endif %}">{{ notification.0.timestamp|date:"d M"}}</span>{{ notification.0.content|safe }}</li>
+						{% endfor %}
+                        <li class="divider"></li>
+                        <li><a href="{% url "startups" %}" class="text-center">View All</a></li>
+						
+                     </ul>
+                  </li>
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+                  <li class="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+                        class="glyphicon glyphicon-user"></span>Welcome, {{ user.username }} <b class="caret"></b></a>
+                     <ul class="dropdown-menu">
+                        <li><a href="{% url "profile" %}"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-cog"></span>Settings</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'account_logout' %}"><span class="glyphicon glyphicon-off"></span>Logout</a></li>
+                     </ul>
+                  </li>
+               </ul>
+            </div>
+            <!--/.navbar-collapse -->
+         </div>
+      </nav>
+      {% endblock navbar %}
+      
+	<div class="container">
+		{% block header %}
+		{% endblock header %}
+		
+{% block sidebar %}
+		<div class="row">
+		  <div class="col-md-3">
+			<div class="panel panel-default">
+ 			  <div class="panel-heading">
+    			<h3 class="panel-title">Menu</h3>
+ 			 </div>
+ 			
+ 			 <div class="panel-body">
+            	<ul class="nav nav-pills nav-stacked">
+              	    <li class="{% active request 'dashboard' %}"><a href="{% url "dashboard" %}"><i class="fa fa-home fa-fw"></i>Home</a></li>
+					<li class="{% active request 'about' %}"><a href="{% url "about" %}"><i class="fa fa-home fa-fw"></i>About</a></li>
+                	<li class="{% active request 'profile' %} {% active request 'profile_edit' %}"><a href="{% url "profile" %}"><i class="fa fa-user fa-fw"></i>Profile</a></li>
+                	<li class="{% active request 'startups' %} {% active request 'new_project' %}"><a href="{% url "startups" %}"><i class="fa fa-folder fa-fw"></i>My Startups</a></li>
+					<li class="{% active request 'project_list' %}"><a href="{% url "project_filter"%}"><i class="fa fa-list fa-fw"></i>Project List</a></li>
+            	</ul>
+       	    </div>
+		  </div>
+		</div>
+{% endblock sidebar %}
+
+
+
+{% block contentbar %}
+			<div class="col-md-9">
+			{% if error %}
+			<div class="alert alert-danger alert-dismissable">
+			  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			  <strong>Error!</strong> {{error}}
+			</div>
+			{% endif %}
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							{% block body_header %}
+							
+							{% endblock body_header %}
+						</div>
+						
+						<div class="panel-body">
+							{% block body %}
+							
+							{% endblock body %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock contentbar %}	
+
+	<div id="footer">
+      <div class="container">
+        <p class="text-muted">
+			Thank you for helping us test the website. <br />
+			Please send any feedback or bugs to <a href="mailto:info@croomer.com">info@croomer.com</a>
+		</p>
+      </div>
+    </div>
+
+     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+     <script src="{% static "demo/js/jquery-1.10.2.js" %}"></script>
+     <script src="{% static "demo/js/bootstrap.min.js" %}"></script>
+	  
+	{% block jsincludes %}
+	{% endblock jsincludes %}
+   </body>
+</html>

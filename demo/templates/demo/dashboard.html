@@ -1,0 +1,51 @@
+{% extends "demo/loggedindefault.html" %}
+{% load staticfiles %}
+{% load activetag %}
+
+{% block head %}
+<style>
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+</style>
+{% endblock head%}
+
+{% block header %}
+	<ol class="breadcrumb">
+		<li class="active">Home</li>
+	</ol>
+{% endblock header %}
+	
+
+
+  {% block body_header %}
+   <h3 class="panel-title">News Feed</h3>
+							
+{% endblock body_header %}
+{% block body %}
+
+	  <ul class="list-group">
+	
+	{% if FeedPost %}
+		{% for feedPost in FeedPosts %}
+			<div class="row">
+				<div class="col-md-12">
+				<div>{{feedPost.content|safe}}</div>
+				</div>
+			</div>
+			<hr>
+		{% endfor %}
+	{% else %}
+		<div class="row">
+			<div class="col-md-12">
+			<div>There's no content yet, create a project to get started!</div>
+			</div>
+		</div>
+	{% endif %}
+	
+	  </ul>
+{% endblock body %}
+
+

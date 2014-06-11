@@ -1,0 +1,87 @@
+{% extends "demo/default.html" %}
+{% load staticfiles %}
+
+{% block head %}
+<style>
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+.centered-form{
+	margin-top: 60px;
+}
+
+</style>
+{% endblock head %}
+
+{% block body %}
+    
+    <div class="container">
+        <div class="row centered-form">	
+			<div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h2>Edit your profile</h2>
+					</div>
+					<div class="panel-body">
+						<form role="form">
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="text" name="first_name" id="first_name" class="form-control" value="Ned">
+									</div>
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="text" name="last_name" id="last_name" class="form-control"  value="Nadima">
+									</div>
+								</div>
+							</div>
+							
+
+							<div class="form-group">
+								<input type="email" name="email" id="email" class="form-control"  value="NedNadima@uottawa.ca">
+							</div>
+
+							
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="text" name="province" id="province" class="form-control" placeholder="Province">
+									</div>
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="text" name="country" id="country" class="form-control"  placeholder="Country">
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="text" name="school" id="school" class="form-control" placeholder="School">
+									</div>
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="text" name="program" id="program" class="form-control"  placeholder="Program">
+									</div>
+								</div>
+							</div>
+							
+							
+							<div class="text-center">
+							<a class="btn btn-primary" style="width:180px;" href="{% url "dashboard" %}">Join now <i class="fa fa-arrow-right"></i></a>
+							</div>
+						</form>
+			    	</div>
+	    		</div>
+    		</div>
+    	</div>
+    </div> <!-- /container -->
+
+
+{% endblock body %}
+

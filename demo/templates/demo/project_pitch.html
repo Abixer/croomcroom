@@ -1,0 +1,29 @@
+{% extends "demo/projectdefault.html" %}
+{% load staticfiles %}
+
+{% block body_header %}
+  <h3 class="panel-title">Project Pitch</h3>
+{% endblock body_header %}
+
+{% block body %}
+			<div class="col-md-12">
+					
+				<form role="form" "action="/" method="post">		
+					{% csrf_token %}
+					<div class="form-group">
+						{{ pitch_form.as_p }}
+					</div>
+
+					<div class="text-center">
+						<input class="btn btn-primary" type="submit" style="width:120px;" value="Update" />
+						<a class="btn btn-danger" style="width:120px;" href="{% url "project" project_name%}">Cancel</a>
+					</div>
+				</form>		    
+	    		
+    		</div>
+    	</div>
+    </div> <!-- /container -->
+
+
+{% endblock body %}
+
